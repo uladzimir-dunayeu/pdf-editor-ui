@@ -54,7 +54,7 @@ document.querySelector<HTMLDivElement>('#pdf-generate')!.addEventListener('click
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'filled_form.pdf';
+    a.download = 'filled_fw2g.pdf';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
