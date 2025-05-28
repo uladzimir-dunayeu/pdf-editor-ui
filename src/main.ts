@@ -1,5 +1,8 @@
-import { PDFDocument } from 'pdf-lib';
+import {PDFDocument} from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
+
+import {pdfFieldsMap} from './pdf-fields-map.ts';
+import {mockData} from './mock-data.ts';
 
 import './style.css'
 import typescriptLogo from './typescript.svg'
@@ -34,37 +37,34 @@ document.querySelector<HTMLDivElement>('#pdf-generate')!.addEventListener('click
     );
     const customFont = await pdfDoc.embedFont(fontBytes);
 
-    const form = pdfDoc.getForm();
-    const fields = form.getFields();
+    const pdfForm = pdfDoc.getForm();
+    const pdfFields = pdfForm.getFields();
 
-    fields.forEach((field) => {
-        const type = field.constructor.name;
+    pdfFields.forEach((field) => {
+        const fieldName = field.getName();
+        const shortFieldName = fieldName.slice(fieldName.lastIndexOf('.') + 1);
 
-        if (type !== 'PDFCheckBox2' && !field.getName().includes('f1_01')) {
-            if (
-                field.getName().includes('f1_03') ||
-                field.getName().includes('f1_04') ||
-                field.getName().includes('f1_16') ||
-                field.getName().includes('f1_21')
-            ) {
-                const lastDotIndex = field.getName().lastIndexOf('.');
-                const result = field.getName().slice(lastDotIndex + 1);
+        const fieldDef = pdfFieldsMap[shortFieldName];
 
-                form.getTextField(field.getName()).setText(result);
-            } else {
-                form
-                    .getTextField(field.getName())
-                    .setText(
-                        'Do Not Cut or Separate Forms on This Page Do Not Cut or Separate Forms on This Page Do Not Cut or Separate Forms on This Page Do Not Cut or Separate Forms on This Page Do Not Cut or Separate Forms on This Page Do Not Cut or Separate Forms on This Page Do Not Cut or Separate Forms on This Page '
-                    );
-                field.defaultUpdateAppearances(customFont);
-            }
+        if (!fieldDef) return;
+
+        const value = fieldDef.getValue(mockData);
+
+        if (fieldDef.type === 'text-field' && value !== undefined) {
+            pdfForm.getTextField(fieldName).setText(value.toString());
+            field.defaultUpdateAppearances(customFont);
+        }
+
+        if (fieldDef.type === 'checkbox') {
+            const checkbox = pdfForm.getCheckBox(fieldName);
+            if (value) checkbox.check();
+            else checkbox.uncheck();
         }
     });
 
     const pdfBytes = await pdfDoc.save();
 
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const blob = new Blob([pdfBytes], {type: 'application/pdf'});
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

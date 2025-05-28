@@ -1,16 +1,17 @@
 export const mockData = {
     calendarYear: 2025,
-    correct: true,
-    void: false,
+    correct: false,
+    void: true,
     payer: {
         name: 'Casino Royale Inc.',
-        address: '123 Vegas Blvd, Las Vegas, NV, 89109, USA',
+        address: '7899 Washington Boulevard, 2nd Floor, Building A, Suite 212, Liberty Business Park, Jersey City, NJ 07306-3125, USA',
         tin: '12-3456789',
         phone: '+1 (702) 555-1234',
     },
     winner: {
         name: 'John Doe',
-        address: '456 Elm St, Apt 12B, Springfield, IL, 62704, USA',
+        streetAddress: '456 Elm St, Apt 12B',
+        address: 'Springfield, IL, 62704, USA',
         tin: '987-65-4321',
     },
     reportableWinnings: 12500.0,
