@@ -4,13 +4,6 @@ import fontkit from '@pdf-lib/fontkit';
 import {pdfFieldsMap} from './pdf-fields-map.ts';
 import {mockData} from './mock-data.ts';
 
-import './style.css'
-
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-    <div class="card">
-      <button id="pdf-generate" type="button">Generate PDF</button>
-    </div>
-`;
 
 document.querySelector<HTMLDivElement>('#pdf-generate')!.addEventListener('click', async () => {
     const existingPdfBytes = await fetch('../public/fw2g.pdf').then(res => res.arrayBuffer());
