@@ -5,25 +5,11 @@ import {pdfFieldsMap} from './pdf-fields-map.ts';
 import {mockData} from './mock-data.ts';
 
 import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
     <div class="card">
       <button id="pdf-generate" type="button">Generate PDF</button>
     </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
 `;
 
 document.querySelector<HTMLDivElement>('#pdf-generate')!.addEventListener('click', async () => {
